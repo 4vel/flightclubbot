@@ -2,9 +2,9 @@ import sched
 import time
 from datetime import datetime, timedelta
 from apscheduler.schedulers.blocking import BlockingScheduler
-from app.data_manager import DataManager
-from app.flight_search import FlightSearch
-from app.notification import NotificationManager
+from flight_app.data_manager import DataManager
+from flight_app.flight_search import FlightSearch
+from flight_app.notification import NotificationManager
 from config import BOT_TOKEN, ADMIN_ID
 
 s = sched.scheduler(time.time, time.sleep)

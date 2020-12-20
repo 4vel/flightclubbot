@@ -19,7 +19,7 @@ class DataAccessLayer:
 
     def connect(self):
         logging.info(f"Подключаюсь к БД")
-        logging.info(self.conn_string)
+
         self.engine = create_engine(self.conn_string)
         Base.metadata.create_all(self.engine)
         self.Session = sessionmaker(bind = self.engine)
@@ -27,7 +27,7 @@ class DataAccessLayer:
 
     def get_session(self):
         logging.info(f"Подключаюсь к БД")
-        logging.info(self.conn_string)
+
         self.engine = create_engine(self.conn_string)
         Base.metadata.create_all(self.engine)
         self.Session = sessionmaker(bind = self.engine)
