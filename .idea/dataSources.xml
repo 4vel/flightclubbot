@@ -5,7 +5,7 @@
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://flyska-do-user-8280257-0.b.db.ondigitalocean.com:25060/pilotdb</jdbc-url>
+      <jdbc-url>jdbc:postgresql://sberjobsdb-do-user-8536569-0.b.db.ondigitalocean.com:25060/flightclubdb</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
