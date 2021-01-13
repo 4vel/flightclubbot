@@ -1,23 +1,12 @@
 import logging
-import pickle
-import os
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
 from db.models import TableUserAirports
-# from db.models import DataAccessLayer
-# from config import conn_string
-from config import IATA_PKL_PATH
 from loader import dp
 from states.form import Form
-from app import session
+from app import session, iata_name_dict
 
-with open(IATA_PKL_PATH, 'rb') as f:
-    iata_name_dict = pickle.load(f)
-
-
-# dal = DataAccessLayer(conn_string)
-# session = dal.get_session()
 
 @dp.message_handler(Command("add_destination"))
 async def enter_form(message: types.Message):

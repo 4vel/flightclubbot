@@ -1,6 +1,10 @@
+import pickle
 from utils.set_bot_commands import set_default_commands
-from config import conn_string
+from config import conn_string, IATA_PKL_PATH
 from db.models import DataAccessLayer
+
+with open(IATA_PKL_PATH, 'rb') as f:
+    iata_name_dict = pickle.load(f)
 
 dal = DataAccessLayer(conn_string)
 session = dal.get_session()

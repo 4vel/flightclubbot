@@ -1,19 +1,12 @@
 import logging
-import pickle
 from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandStart
 from aiogram.dispatcher import FSMContext
 from db.models import TableUserAirports, TableUsers
-# from db.models import DataAccessLayer
-# from config import conn_string
-from config import IATA_PKL_PATH
 from states.form import FormBaseAeroport
-from app import session
-
+from app import session, iata_name_dict
 from loader import dp
 
-with open(IATA_PKL_PATH, 'rb') as f:
-    iata_name_dict = pickle.load(f)
 
 @dp.message_handler(CommandStart())
 async def bot_start(message: types.Message):
