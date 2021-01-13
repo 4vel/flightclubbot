@@ -76,15 +76,17 @@ class TableUsers(BaseModel):
 
     __tablename__ = 'users'
 
-    user_id = Column(VARCHAR())
+    user_id = Column(VARCHAR(), primary_key=True)
     user_name = Column(VARCHAR())
+    user_base_airport = Column(VARCHAR())
 
-    def __init__(self, user_id,  user_name):
+    def __init__(self, user_id,  user_name, user_base_airport ):
         self.user_id = user_id
         self.user_name = user_name
+        self.user_base_airport = user_base_airport
 
     def __repr__(self):
-        return f'{self.user_id} {self.user_name} '
+        return f'{self.user_id} {self.user_name} {self.user_base_airport}'
 
 class TableUserAirports(BaseModel):
 
@@ -96,8 +98,8 @@ class TableUserAirports(BaseModel):
 
     __tablename__ = 'destinations'
 
-    user_id = Column(VARCHAR())
-    airport_code = Column(VARCHAR())
+    user_id = Column(VARCHAR(), primary_key = True)
+    airport_code = Column(VARCHAR(), primary_key = True)
     price = Column(NUMERIC())
 
     def __init__(self, user_id,  airport_code, price):

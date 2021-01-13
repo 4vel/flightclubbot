@@ -10,11 +10,20 @@ from states.form import Form
 
 session = dal.get_session()
 
-@dp.message_handler(Command("add_destination"))
+def get_destinations_by_user():
+    pass
+    return None
+
+@dp.message_handler(Command("show_destinations"))
 async def enter_form(message: types.Message):
-    msg = """
-    Укажите направление для отслеживания цен на авиабилеты
-    """
+
+    dst = get_destinations_by_user()
+    if dst:
+        msg = """У вас указаные следующие направления ..."""
+        msg = msg + dst
+    else:
+        msg = """ У вас пока не указано ни одно направление"""
     await message.answer(msg)
-    await message.answer("Укажите IATA код аэропорта \n")
-    await Form.Q1.set()
+
+
+

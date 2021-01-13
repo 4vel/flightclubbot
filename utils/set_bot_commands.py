@@ -7,4 +7,5 @@ async def set_default_commands(dp):
         types.BotCommand("help", "Помощь"),
         types.BotCommand("add_destination", "Добавить направление"),
         types.BotCommand("show_destinations", "Посмотреть направления"),
+        types.BotCommand("remove_destinations", "Удалить все направления"),
     ])

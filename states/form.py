@@ -5,3 +5,7 @@ class Form(StatesGroup):
     Q1 = State()
     Q2 = State()
 
+class FormBaseAeroport(StatesGroup):
+    Q1 = State()
+    Q2 = State()
+
