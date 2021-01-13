@@ -1,7 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandHelp
 
-from loader import dp
+from loader import dphttps://github.com/4vel/flightclubbot.git
 from utils.misc import rate_limit
 
 
