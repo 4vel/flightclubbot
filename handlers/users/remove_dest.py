@@ -12,7 +12,7 @@ async def remove_destinations(message: types.Message):
 
     user_id = str(message.from_user.id)
     session.query(TableUserAirports).filter_by(user_id=user_id).delete()
-
+    session.commit()
     msg = """ Все ранее указанные аэропорты удалены"""
     logging.info(user_id)
     logging.info(msg)

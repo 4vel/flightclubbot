@@ -53,3 +53,4 @@ async def answer_q2(message: types.Message, state: FSMContext):
 
     else:
         await message.answer("К сожалению, такого кода аэропорта у нас еще нет")
+        await state.reset_state()
