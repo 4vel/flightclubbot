@@ -4,9 +4,6 @@ import requests
 logging.basicConfig(level=logging.INFO)
 
 
-
-
-
 class NotificationManager:
 
     def __init__(self, BOT_TOKEN, ADMIN_ID):

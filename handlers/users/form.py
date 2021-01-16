@@ -39,10 +39,10 @@ async def answer_q2(message: types.Message, state: FSMContext):
     answer2 = data.get("answer2")
 
     # проверяем есть ли код в списке аэропортов
-    if iata_name_dict.get(answer1):
+    if iata_name_dict.get(answer1.UPPER()):
         user = str(message.from_user.id)
         logging.info(f"{answer1}{answer2} {user}")
-        uap = TableUserAirports(user, answer1, int(answer2))
+        uap = TableUserAirports(user, answer1.UPPER(), int(answer2))
         session.add(uap)
         session.commit()
 

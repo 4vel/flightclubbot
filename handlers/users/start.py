@@ -18,12 +18,15 @@ async def bot_start(message: types.Message):
 
 @dp.message_handler(state=FormBaseAeroport.Q1)
 async def answer_q1(message: types.Message, state: FSMContext):
-    answer = message.text
+    answer = message.text.UPPER()
     if iata_name_dict.get(answer):
         await state.update_data(answer1=answer)
         await message.answer(f"Аэропорт отправления записан - {answer} {iata_name_dict.get(answer)}")
 
-        meuser = TableUsers(message.from_user.id, message.from_user.full_name, answer)
+        user_id = str(message.from_user.id)
+        session.query(TableUsers).filter_by(user_id = user_id).delete()
+        # session.commit()
+        meuser = TableUsers(user_id, message.from_user.full_name, answer)
         session.add(meuser)
         session.commit()
         await state.reset_state()
