@@ -18,7 +18,7 @@ async def bot_start(message: types.Message):
 
 @dp.message_handler(state=FormBaseAeroport.Q1)
 async def answer_q1(message: types.Message, state: FSMContext):
-    answer = message.text.UPPER()
+    answer = message.text.upper()
     if iata_name_dict.get(answer):
         await state.update_data(answer1=answer)
         await message.answer(f"Аэропорт отправления записан - {answer} {iata_name_dict.get(answer)}")

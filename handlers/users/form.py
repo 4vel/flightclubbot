@@ -35,20 +35,21 @@ async def answer_q2(message: types.Message, state: FSMContext):
     await state.update_data(answer2 = answer)
 
     data = await state.get_data()
-    answer1 = data.get("answer1")
+    airport = data.get("answer1")
     answer2 = data.get("answer2")
 
     # проверяем есть ли код в списке аэропортов
-    if iata_name_dict.get(answer1.UPPER()):
+    if iata_name_dict.get(airport.upper()):
+        airport = airport.upper()
         user = str(message.from_user.id)
-        logging.info(f"{answer1}{answer2} {user}")
-        uap = TableUserAirports(user, answer1.UPPER(), int(answer2))
+        logging.info(f"{airport}{answer2} {user}")
+        uap = TableUserAirports(user, airport, int(answer2))
         session.add(uap)
         session.commit()
 
         await message.answer("Добавили в список !")
-        await message.answer(f"Аэропорт - {answer1} {iata_name_dict.get(answer1)}")
-        await message.answer(f"Цена - {answer2}")
+        await message.answer(f"Аэропорт - {airport} {iata_name_dict.get(airport)}")
+        await message.answer(f"Цена - {answer2} р")
         await state.reset_state()
 
     else:
