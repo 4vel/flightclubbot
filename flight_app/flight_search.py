@@ -1,3 +1,5 @@
+import logging
+
 import requests
 from flight_app.flight_data import FlightData
 from config import TEQUILA_API_KEY
@@ -62,7 +64,7 @@ class FlightSearch:
             return None
 
     def check_flights_short(self, origin_city_code, destination_city_code, from_time, to_time):
-
+        print(origin_city_code, destination_city_code, from_time, to_time)
         headers = {"apikey": TEQUILA_API_KEY}
         query = {
             "fly_from": origin_city_code,
@@ -82,10 +84,10 @@ class FlightSearch:
             headers=headers,
             params=query,
         )
+        logging.info(f'Response: {response}')
         try:
-
             data = response.json()["data"][0]
-
+            logging.info(f"Response data: {data}")
             flight_data = FlightData(
                 price=data["price"],
                 origin_city=data["route"][0]["cityFrom"],

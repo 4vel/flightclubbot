@@ -1,18 +1,30 @@
 import logging
-import pandas as pd
-from config import DATAFILE_PATH
+from db.models import TableUsers, TableUserAirports
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level = logging.INFO)
 
-fpth = DATAFILE_PATH
 
 class DataManager:
 
     def __init__(self):
         self.destination_data = {}
-        self.fpth = fpth
 
-    def get_destination_data(self):
-        df = pd.read_excel(self.fpth)
-        self.destination_data = df.to_dict('records')
-        return self.destination_data
+    def get_destination_data_db(self, db_session, user_id):
+        """ Возвращает список словарей
+        destination["IATA Code"]
+        destination["Lowest Price"]
+        """
+
+        destination_rows = db_session.query(TableUserAirports).filter_by(user_id = user_id)
+
+        destination_data = []
+        for row in destination_rows:
+            destination_dict = {"IATA Code": row.airport_code, "Lowest Price": int(row.price)}
+            destination_data.append(destination_dict)
+        return destination_data
+
+    def get_origin_airport(self, db_session, user_id):
+        """ Получает аэропорт отправления юзера"""
+
+        user_row = db_session.query(TableUsers).filter_by(user_id = user_id).first()
+        return user_row.user_base_airport
