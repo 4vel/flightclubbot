@@ -19,8 +19,9 @@ def get_data_pack(db_session, user_id):
     :param user_id:
     :return:
     """
-    notification_manager.chat_id = user_id
+
     data_package = {
+        "user": user_id,
         "sheet_data": data_manager.get_destination_data_db(db_session, user_id),
         "flight_search": FlightSearch(),
         "notification_manager": notification_manager,
@@ -72,9 +73,7 @@ def search_flights(data_pack, period, msg_cache):
                 msg += f"Продолжительность {flight.duration_days} д"
 
                 if msg not in msg_cache:
-                    data_pack["notification_manager"].send_sms(
-                        message = msg
-                    )
+                    data_pack["notification_manager"].send_sms(data_pack['user'], message=msg)
                     msg_cache.append(msg)
 
 
@@ -124,8 +123,8 @@ def checkflights_long(db_session):
         search_flights(dp, "long", message_cache)
 
 
-def healthcheck():
-    notification_manager.send_sms("💟")
+# def healthcheck():
+#     notification_manager.send_sms("💟",)
 
 
 if __name__ == "__main__":
@@ -133,9 +132,9 @@ if __name__ == "__main__":
     session = dal.get_session()
     data_manager = DataManager()
     notification_manager = NotificationManager(BOT_TOKEN)
-    checkflighs_short(session)
+    # checkflighs_short(session)
 
-    sched.add_job(checkflighs_short, 'interval', minutes = 5)
-    sched.add_job(checkflights_long, 'interval', minutes = 3)
-    sched.add_job(healthcheck, 'interval', hours = 1)
+    sched.add_job(checkflighs_short, 'interval', minutes = 1, args = [session])
+    sched.add_job(checkflights_long, 'interval', minutes = 2, args = [session])
+    # sched.add_job(healthcheck, 'interval', minutes = 1)
     sched.start()

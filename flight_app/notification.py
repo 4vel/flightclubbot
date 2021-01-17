@@ -9,7 +9,7 @@ class NotificationManager:
 
     def __init__(self, BOT_TOKEN):
         self.token = BOT_TOKEN
-        self.chat_id = None
+
 
     def check_message_duplicates(self):
         """ Проверяет наличие таких же сообщений в отправленных ранее """
@@ -19,11 +19,11 @@ class NotificationManager:
         """Добавляет сообщения в базу"""
         pass
 
-    def send_sms(self, message='bla-bla-bla'):
+    def send_sms(self, user_id, message='bla-bla-bla'):
         """ Отправляет сообщения юзерам """
 
         url = f'https://api.telegram.org/bot{self.token}/sendMessage'
-        payload = {'chat_id': self.chat_id, 'text': message}
+        payload = {'chat_id': user_id, 'text': message}
         r = requests.post(url, json = payload)
         return r
 
