@@ -3,13 +3,13 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from flight_app.data_manager import DataManager
 from flight_app.flight_search import FlightSearch
 from flight_app.notification import NotificationManager
-from config import BOT_TOKEN, conn_string
+from config import BOT_TOKEN, ADMIN_ID, conn_string
 from db.models import DataAccessLayer, TableUsers
 
 data_manager = DataManager()
 sched = BlockingScheduler()
 notification_manager = NotificationManager(BOT_TOKEN)
-
+message_cache = []
 
 def get_data_pack(db_session, user_id):
     """
@@ -68,19 +68,16 @@ def search_flights(data_pack, period, msg_cache):
 
                 msg += f"Перелет из {flight.origin_city}-{flight.origin_airport} "
                 msg += f"в {flight.destination_city}-{flight.destination_airport} за {flight.price} рублей.\n"
+                # msg += f" Авиакомпания {flight.airline} рейс {flight.flight_no }.\n"
                 msg += f"Даты: {flight.out_date} ({flight.out_date_weekday})"
                 msg += f"- {flight.return_date} ({flight.return_date_weekday}).\n "
                 msg += f"Продолжительность {flight.duration_days} д"
 
                 if msg not in msg_cache:
-                    data_pack["notification_manager"].send_sms(data_pack['user'], message=msg)
+                    data_pack["notification_manager"].send_sms(data_pack['user'], message = msg)
                     msg_cache.append(msg)
 
 
-message_cache = []
-
-
-# sched = BlockingScheduler()
 
 
 def checkflighs_short(db_session):
@@ -123,8 +120,10 @@ def checkflights_long(db_session):
         search_flights(dp, "long", message_cache)
 
 
-# def healthcheck():
-#     notification_manager.send_sms("💟",)
+def healthcheck():
+    """Отправляет сердечко админу"""
+
+    notification_manager.send_sms(ADMIN_ID, "💟")
 
 
 if __name__ == "__main__":
@@ -132,9 +131,8 @@ if __name__ == "__main__":
     session = dal.get_session()
     data_manager = DataManager()
     notification_manager = NotificationManager(BOT_TOKEN)
-    # checkflighs_short(session)
 
-    sched.add_job(checkflighs_short, 'interval', minutes = 1, args = [session])
-    sched.add_job(checkflights_long, 'interval', minutes = 2, args = [session])
-    # sched.add_job(healthcheck, 'interval', minutes = 1)
+    sched.add_job(checkflighs_short, 'interval', minutes = 5, args = [session])
+    sched.add_job(checkflights_long, 'interval', minutes = 7, args = [session])
+    sched.add_job(healthcheck, 'interval', hours = 24)
     sched.start()

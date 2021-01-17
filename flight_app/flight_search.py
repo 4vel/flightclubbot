@@ -96,6 +96,8 @@ class FlightSearch:
                 destination_airport=data["route"][0]["flyTo"],
                 out_date=data["route"][0]["local_departure"].split("T")[0],
                 return_date=data["route"][1]["local_departure"].split("T")[0]
+                # airline=data[""],
+                # flight_no=data[""],
             )
 
             return flight_data
