@@ -1,5 +1,5 @@
 import logging
-
+import time
 import requests
 from flight_app.flight_data import FlightData
 from config import TEQUILA_API_KEY
@@ -39,6 +39,8 @@ class FlightSearch:
             headers=headers,
             params=query,
         )
+
+        time.sleep(2)
         try:
 
             data = response.json()["data"][0]
