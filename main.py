@@ -132,7 +132,7 @@ if __name__ == "__main__":
     data_manager = DataManager()
     notification_manager = NotificationManager(BOT_TOKEN)
 
-    sched.add_job(checkflighs_short, 'interval', minutes = 5, args = [session])
+    sched.add_job(checkflighs_short, 'interval', minutes = 2, args = [session])
     sched.add_job(checkflights_long, 'interval', minutes = 10, args = [session])
     sched.add_job(healthcheck, 'interval', hours = 24)
     sched.start()

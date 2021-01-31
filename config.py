@@ -3,7 +3,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-IATA_PKL_PATH = os.path.join('data','iata_name_dict.pkl')
+IATA_PKL_PATH = os.path.join('data', 'iata_name_dict.pkl')
+IATA_CITY_PKL_PATH = os.path.join('data', 'city_code_lists.pkl')
 TEQUILA_API_KEY = str(os.getenv("TEQUILA_API_KEY"))
 BOT_TOKEN = str(os.getenv("BOT_TOKEN"))
 ADMIN_ID = int(os.getenv("ADMIN_ID"))

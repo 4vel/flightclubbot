@@ -22,7 +22,7 @@ class DataAccessLayer:
 
         self.engine = create_engine(self.conn_string)
         Base.metadata.create_all(self.engine)
-        self.Session = sessionmaker(bind = self.engine)
+        self.Session = sessionmaker(bind=self.engine)
         self.session = self.Session()
 
     def get_session(self):
@@ -30,7 +30,7 @@ class DataAccessLayer:
 
         self.engine = create_engine(self.conn_string)
         Base.metadata.create_all(self.engine)
-        self.Session = sessionmaker(bind = self.engine)
+        self.Session = sessionmaker(bind=self.engine)
         self.session = self.Session()
         return self.session
 
@@ -38,13 +38,14 @@ class DataAccessLayer:
 class BaseModel(Base):
     __abstract__ = True
 
-    id = Column(Integer, nullable = False, unique = True, primary_key = True, autoincrement = True)
-    created_at = Column(TIMESTAMP, nullable = False, default = datetime.datetime.now())
-    updated_at = Column(TIMESTAMP, nullable = False, default = datetime.datetime.now(),
-                        onupdate = datetime.datetime.now())
+    id = Column(Integer, nullable=False, unique=True, primary_key=True, autoincrement=True)
+    created_at = Column(TIMESTAMP, nullable=False, default=datetime.datetime.now())
+    updated_at = Column(TIMESTAMP, nullable=False, default=datetime.datetime.now(),
+                        onupdate=datetime.datetime.now())
 
     def __repr__(self):
         return "<{0.__class__.__name__}(id={0.id!r})>".format(self)
+
 
 class TableAirportCodes(BaseModel):
     """ Таблица коды аэропортов """
@@ -55,20 +56,16 @@ class TableAirportCodes(BaseModel):
     airport_code = Column(VARCHAR())
     city_country = Column(VARCHAR())
 
-    def __init__(self, airport_name,  airport_code, city_country):
+    def __init__(self, airport_name, airport_code, city_country):
         self.airport_name = airport_name
         self.airport_code = airport_code
         self.city_country = city_country
-
 
     def __repr__(self):
         return f'{self.airport_name} {self.airport_code} {self.city_country}'
 
 
-
-
 class TableUsers(BaseModel):
-
     """
     Таблица Юзеров
     Нужна для того чтобы обращаться к юзеру по имени
@@ -80,7 +77,7 @@ class TableUsers(BaseModel):
     user_name = Column(VARCHAR())
     user_base_airport = Column(VARCHAR())
 
-    def __init__(self, user_id,  user_name, user_base_airport ):
+    def __init__(self, user_id, user_name, user_base_airport):
         self.user_id = user_id
         self.user_name = user_name
         self.user_base_airport = user_base_airport
@@ -88,8 +85,8 @@ class TableUsers(BaseModel):
     def __repr__(self):
         return f'{self.user_id} {self.user_name} {self.user_base_airport}'
 
-class TableUserAirports(BaseModel):
 
+class TableUserAirports(BaseModel):
     """
     Таблица юзеров и аэропортов
     airport_code - iata
@@ -98,11 +95,11 @@ class TableUserAirports(BaseModel):
 
     __tablename__ = 'destinations'
 
-    user_id = Column(VARCHAR(), primary_key = True)
-    airport_code = Column(VARCHAR(), primary_key = True)
+    user_id = Column(VARCHAR(), primary_key=True)
+    airport_code = Column(VARCHAR(), primary_key=True)
     price = Column(NUMERIC())
 
-    def __init__(self, user_id,  airport_code, price):
+    def __init__(self, user_id, airport_code, price):
         self.user_id = user_id
         self.airport_code = airport_code
         self.price = price
@@ -111,7 +108,50 @@ class TableUserAirports(BaseModel):
         return f'{self.user_id} {self.airport_code} {self.price} '
 
 
+class TablePrices(BaseModel):
+    """
+    Таблица  аэропортов и цен
+    airport_code - iata
+    price - цена в рублях
+    data - строка с джейсоном из ответа
+    """
+
+    __tablename__ = 'prices'
+
+    airport_code = Column(VARCHAR(), primary_key=True)
+    price = Column(NUMERIC())
+    data = Column(VARCHAR())
+
+    def __init__(self, airport_code, price, data):
+        self.airport_code = airport_code
+        self.price = price
+        self.data = data
+
+    def __repr__(self):
+        return f' {self.airport_code} {self.price} {self.data}'
 
 
+class TableCities(BaseModel):
+    """
+    Таблица с городами и странами
+    city - название города
+    city_code - iata код города
+    city_name_translation - название города на английском
+    country - код страны
+    """
 
+    __tablename__ = 'cities'
 
+    city = Column(VARCHAR())
+    city_code = Column(VARCHAR(), primary_key=True)
+    city_name_translation = Column(VARCHAR())
+    country = Column(VARCHAR())
+
+    def __init__(self, city, city_code, city_name_translation, country):
+        self.city = city
+        self.city_code = city_code
+        self.city_name_translation = city_name_translation
+        self.country = country
+
+    def __repr__(self):
+        return f'{self.city} {self.city_code} {self.city_name_translation} {self.country} '
