@@ -31,6 +31,15 @@ async def answer_q1(message: types.Message, state: FSMContext):
 
 @dp.message_handler(state=Form.Q2)
 async def answer_q2(message: types.Message, state: FSMContext):
+    """
+
+    функция проверки этого направления
+    функция удаления если такое направление уже есть
+    функция добавления направления
+    :param message:
+    :param state:
+    :return:
+    """
 
     answer = message.text
     await state.update_data(answer2 = answer)
@@ -44,16 +53,11 @@ async def answer_q2(message: types.Message, state: FSMContext):
         airport = airport.upper()
         user = str(message.from_user.id)
         logging.info(f"{airport}{answer2} {user}")
-        # добавить функцию проверки этого направления
-        # добавить функцию удаления если такое направление уже есть
-        # добавить функцию добавления направления
+
         if check_existing_destination(session, user, airport):
             remove_existing_destination(session, user, airport)
         add_destination(session, user, airport, answer2)
 
-        # uap = TableUserAirports(user, airport, int(answer2))
-        # session.add(uap)
-        # session.commit()
 
         await message.answer("Добавили в список !")
         await message.answer(f"Аэропорт - {airport} {iata_name_dict.get(airport)}")

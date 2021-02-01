@@ -25,10 +25,11 @@ async def answer_q1(message: types.Message, state: FSMContext):
 
         user_id = str(message.from_user.id)
         session.query(TableUsers).filter_by(user_id = user_id).delete()
-        # session.commit()
+
         meuser = TableUsers(user_id, message.from_user.full_name, answer)
         session.add(meuser)
         session.commit()
+        await message.answer(f"Теперь можешь добавить город для отслеживания цен на авиабилеты 👉/add_destination_city")
         await state.reset_state()
     else:
         await message.answer(f'Такого кода аэропорта нет.')
