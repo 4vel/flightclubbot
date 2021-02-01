@@ -22,7 +22,7 @@ async def show_destinations(message: types.Message):
     if dst:
         msg = "У вас указаные следующие направления ...\n"
         for k, v in dst.items():
-            msg += f"{k} {iata_name_dict.get(k)} - {v} р \n"
+            msg += f"{k} {iata_name_dict.get(k)} - {v} ₽ \n"
     else:
         msg = """ У вас пока не указано ни одно направление"""
     await message.answer(msg)

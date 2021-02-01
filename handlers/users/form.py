@@ -57,7 +57,7 @@ async def answer_q2(message: types.Message, state: FSMContext):
 
         await message.answer("Добавили в список !")
         await message.answer(f"Аэропорт - {airport} {iata_name_dict.get(airport)}")
-        await message.answer(f"Цена - {answer2} р")
+        await message.answer(f"Цена - {answer2} ₽")
         await state.reset_state()
 
     else:
