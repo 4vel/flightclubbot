@@ -50,3 +50,13 @@ def add_airport_origin(session, user_id, user_fullname, airport_origin):
     new_user = TableUsers(user_id, user_fullname, airport_origin)
     session.add(new_user)
     session.commit()
+
+
+def get_destinations_by_user(session, user_id):
+    """ Возвращает все направления и цены, указанные пользователем """
+
+    user_id = str(user_id)
+    destinations_dict = dict()
+    for el in session.query(TableUserAirports).filter_by(user_id = user_id).all():
+        destinations_dict[el.airport_code] = int(el.price)
+    return destinations_dict

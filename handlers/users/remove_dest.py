@@ -6,14 +6,14 @@ from app import session
 from loader import dp
 
 
-
 @dp.message_handler(Command("remove_destinations"))
 async def remove_destinations(message: types.Message):
 
     user_id = str(message.from_user.id)
     session.query(TableUserAirports).filter_by(user_id=user_id).delete()
     session.commit()
-    msg = """ Все ранее указанные аэропорты удалены"""
+    msg = "Все ранее указанные аэропорты удалены ❌ "\
+          "Добавить новые можно с помощью команды 👉 /add_destination_city"
     logging.info(user_id)
     logging.info(msg)
     await message.answer(msg)

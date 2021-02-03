@@ -12,12 +12,12 @@ from loader import dp
 @dp.message_handler(CommandStart())
 async def bot_start(message: types.Message):
     msg = f"Привет, {message.from_user.first_name}! Хочешь улететь? ✈️ " \
-          "FlightClubber поможет тебе найти авиабилеты по цене ниже той, которую ты укажешь." \
-          "Просто укажи город или аэропорт вылета и добавь направление и пороговое значение цены." \
+          "FlightClubber поможет тебе найти авиабилеты по цене ниже той, которую ты укажешь. " \
+          "Просто укажи город или аэропорт вылета и добавь направление и пороговое значение цены. " \
           "Как только FlightClubber найдет билет дешевле, ты сразу получишь сообщение."
     await message.answer(msg)
     # await message.answer(f'Твой user_id {message.from_user.id}')
-    await message.answer(f'Укажи код аэропорта отправления')
+    await message.answer(f'Для начала укажи код аэропорта отправления')
     await FormBaseAeroport.Q1.set()
 
 
